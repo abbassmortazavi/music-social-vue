@@ -5,6 +5,7 @@ import ProfileAboutSection from "@/components/partials/profile/ProfileAboutSecti
 import Button from "@/components/global/Button.vue";
 import SongSection from "@/components/partials/profile/SongSection.vue";
 import YoutubeVideoSection from "@/components/partials/profile/YoutubeVideoSection.vue";
+import PostSection from "@/components/partials/profile/PostSection.vue";
 </script>
 
 <template>
@@ -33,6 +34,7 @@ import YoutubeVideoSection from "@/components/partials/profile/YoutubeVideoSecti
       <profile-about-section/>
       <song-section/>
       <YoutubeVideoSection/>
+      <PostSection/>
     </div>
   </div>
 </template>
