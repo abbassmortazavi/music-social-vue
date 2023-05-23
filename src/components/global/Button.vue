@@ -4,7 +4,7 @@ import {defineProps, toRefs} from "vue";
 const props = defineProps({
   btnText: String,
   color: String,
-  url: String,
+  url: {type: String, default: ''},
 });
 const {btnText, color, url} = toRefs(props);
 
@@ -20,8 +20,7 @@ const {btnText, color, url} = toRefs(props);
                                  text-gray-900
                                  font-semibold
                                  hover:text-white
-                                 py-2
-                                 px-4
+
                                  border
                                  hover:border-transparent
                                  rounded
