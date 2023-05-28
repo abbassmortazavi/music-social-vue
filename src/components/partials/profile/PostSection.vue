@@ -13,13 +13,8 @@ import Button from "@/components/global/Button.vue";
 
         <div class="w-full mt-4 flex justify-end">
           <Button
-              class="mr-2"
-              color="red"
-              btnText="Delete Post"
-              url="/account/delete-post"
-          />
-          <Button
               color="blue"
+
               btnText="Add Post"
               url="/account/add-post"
           />
@@ -35,7 +30,16 @@ import Button from "@/components/global/Button.vue";
           <div class="p-2 md:p-4">
             <div class="text-lg">
               <router-link to=""
-                           class="text-blue-500 hover:text-blue-800"
+                           class="
+              bg-blue-500
+              hover:text-blue-700
+              text-white
+              text-sm
+              font-bold
+              py-1
+              px-2
+              rounded-full
+              "
               >
                 test title
               </router-link>
@@ -44,12 +48,24 @@ import Button from "@/components/global/Button.vue";
             <p class="text-gray-darker text-md">This is my text,This is my textThis is my textThis is my textThis is my
               textThis is my textThis is my text</p>
             <div class="mt-2 flex items-center justify-end">
-              <router-link to="" class="underline bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-1 px-1 rounded-full">
-                test title
+              <router-link to="" class="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-1 px-1 rounded-full">
+                Edit Post
               </router-link>
-              <button to="" class="underline bg-red-500 hover:text-red-700 text-white text-sm font-bold py-1 px-1 rounded-full">
-                test title
-              </button>
+
+              <Button
+                  class="
+                  bg-red-500
+                  hover:white-blue-700
+                  text-white
+                  text-sm
+                  font-bold
+                  py-1
+                  px-1
+                    rounded-full
+               "
+                  btnText="Delete Post"
+                  url="/account/delete-post"
+              />
             </div>
           </div>
         </div>

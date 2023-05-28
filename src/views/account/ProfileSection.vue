@@ -9,7 +9,7 @@ import PostSection from "@/components/partials/profile/PostSection.vue";
 </script>
 
 <template>
-  <div class="container max-w-4xl mx-auto flex">
+  <div class="container max-w-4xl mx-auto flex mt-10">
     <div class="w-1/3">
       <img src="https://placehold.co/600x400" class="w-full rounded-lg h-auto shadow-lg" alt="Profile Pic">
     </div>

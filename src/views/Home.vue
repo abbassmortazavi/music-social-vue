@@ -2,6 +2,7 @@
   <div class="home">
     <TopNavigation/>
     <HeroSection/>
+
   </div>
 </template>
 
