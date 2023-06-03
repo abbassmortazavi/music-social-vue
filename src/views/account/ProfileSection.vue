@@ -1,5 +1,4 @@
 <script setup>
-
 import ProfileInfoSection from "@/components/partials/profile/ProfileInfoSection.vue";
 import ProfileAboutSection from "@/components/partials/profile/ProfileAboutSection.vue";
 import Button from "@/components/global/Button.vue";

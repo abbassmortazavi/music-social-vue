@@ -4,6 +4,7 @@ import Register from "@/views/Register.vue";
 import Login from "@/views/Login.vue";
 import AccountView from "@/views/AccountView.vue";
 import ProfileSection from "@/views/account/ProfileSection.vue";
+import EditProfile from "@/views/account/EditProfile.vue";
 
 const routes = [
   {
@@ -28,6 +29,10 @@ const routes = [
       {
         path: 'profile',
         component: ProfileSection,
+      },
+      {
+        path: 'edit-profile',
+        component: EditProfile,
       }
     ]
   },

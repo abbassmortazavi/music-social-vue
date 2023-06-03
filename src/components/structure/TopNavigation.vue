@@ -1,6 +1,6 @@
 <script setup>
-
 import FullScreenModal from "@/components/structure/FullScreenModal.vue";
+// part 14
 </script>
 
 <template>

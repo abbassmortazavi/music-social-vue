@@ -19,7 +19,7 @@ const inputComputed = computed({
 
 <template>
     <div class="mb-4">
-        <label for="" class=" block uppercase tracking-wide text-xs font-bold mb-2 text-gray-100 " :class="[labelColor ? 'text-color-gray-900': 'text-gray-100']">
+        <label for="" class=" block uppercase tracking-wide text-xs font-bold mb-2 text-gray-400 " :class="[labelColor ? 'text-color-gray-900': 'text-gray-100']">
             {{ label }}
         </label>
         <input
@@ -32,7 +32,6 @@ const inputComputed = computed({
                    block
                    w-full
                    bg-white
-                   text-gray-400
                    rounded
                    py-3
                    px-4
@@ -40,7 +39,8 @@ const inputComputed = computed({
                    focus:outline-none
                    focus:bg-white
                    focus:bg-white
-                   focus:border-gray-500
+                   focus:border-gray-800
+                   border
                 ">
         <span v-if="error" class="text-red-500">
                 {{ error }}

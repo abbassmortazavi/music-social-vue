@@ -53,7 +53,7 @@ let open = ref(false);
                "
               color="green"
               btnText="Profile"
-              url="/account/delete-post"
+              url="/account/profile"
           />
 
           <Button
