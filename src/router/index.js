@@ -9,6 +9,8 @@ import AddSong from "@/views/account/AddSong.vue";
 import DeleteSong from "@/views/account/DeleteSong.vue";
 import DeleteVideo from "@/views/account/DeleteVideo.vue";
 import AddVideo from "@/views/account/AddVideo.vue";
+import AddPost from "@/views/account/AddPost.vue";
+import EditPost from "@/views/account/EditPost.vue";
 
 const routes = [
   {
@@ -57,6 +59,16 @@ const routes = [
         path: 'delete-video',
         name: 'DeleteVideo',
         component: DeleteVideo,
+      },
+      {
+        path: 'add-post',
+        name: 'AddPost',
+        component: AddPost,
+      },
+      {
+        path: 'edit-post',
+        name: 'EditPost',
+        component: EditPost,
       }
     ]
   },

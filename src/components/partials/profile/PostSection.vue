@@ -48,7 +48,7 @@ import Button from "@/components/global/Button.vue";
             <p class="text-gray-darker text-md">This is my text,This is my textThis is my textThis is my textThis is my
               textThis is my textThis is my text</p>
             <div class="mt-2 flex items-center justify-end">
-              <router-link to="" class="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-1 px-1 rounded-full">
+              <router-link to="/account/edit-post" class="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-1 px-1 rounded-full">
                 Edit Post
               </router-link>
 
