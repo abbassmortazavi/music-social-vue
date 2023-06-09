@@ -16,7 +16,7 @@ const router = useRouter();
 const userStore = useUserStore();
 
 let errors = ref([]);
-
+let imageData = null;
 let form = ref({
   first_name: '',
   last_name: '',
@@ -40,14 +40,24 @@ const update = async () => {
   formData.append('last_name', form.value.last_name);
   formData.append('location', form.value.location);
   formData.append('description', form.value.description);
-  //formData.append('image', formData.value.image);
+
+  if (imageData) {
+    formData.append('image', imageData.file);
+    formData.append('height', imageData.height);
+    formData.append('width', imageData.width);
+    formData.append('left', imageData.left);
+    formData.append('top', imageData.top);
+    console.log('ok');
+  }
 
   try {
-    await axios.post("user/update/" + userStore.id, formData);
+    await axios.post("user/update/" + userStore.id, formData)
+        .then(res => {
+          console.log(res);
+        });
     await userStore.fetchUser();
-    router.push('/account/profile')
+    await router.push('/account/profile')
   } catch (error) {
-    console.log(error);
     errors.value = error.response.data.errors;
   }
 }
@@ -55,6 +65,8 @@ const update = async () => {
 let showModal = ref(false);
 
 const setImageCroppedData = (data) => {
+  imageData = data;
+
   form.value.image = data.imageUrl;
 }
 
@@ -78,7 +90,7 @@ const setImageCroppedData = (data) => {
             placeholder="Its ok!"
             v-model:input="form.first_name"
             inputType="text"
-            error="this is error"
+            :error="errors.first_name ? errors.first_name[0] : ''"
         />
       </div>
 
@@ -88,7 +100,8 @@ const setImageCroppedData = (data) => {
             placeholder="Its ok!"
             v-model:input="form.last_name"
             inputType="text"
-            error="this is error"
+            :error="errors.last_name ? errors.last_name[0] : ''"
+
         />
       </div>
     </div>
@@ -99,7 +112,7 @@ const setImageCroppedData = (data) => {
             placeholder="Its ok!"
             v-model:input="form.location"
             inputType="text"
-            error="this is error"
+            :error="errors.location ? errors.location[0] : ''"
         />
       </div>
     </div>
@@ -117,7 +130,7 @@ const setImageCroppedData = (data) => {
       <div class="w-full md:w-1/2 px-3">
         <CroppedImage
             label="Cropped Image"
-            :image="form.image"
+            :image="'http://localhost:8082/images/users/'+form.image"
         />
       </div>
     </div>
@@ -128,7 +141,7 @@ const setImageCroppedData = (data) => {
             label="Description"
             v-model:description="form.description"
             placeholder="Write Some Information"
-            error="this is error"
+            :error="errors.description ? errors.description[0] : ''"
         />
       </div>
     </div>

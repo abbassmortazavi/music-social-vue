@@ -23,17 +23,20 @@ export const useUserStore = defineStore('user', {
                 this.$state.token = res.data.token,
                 this.$state.email = res.data.user.email,
                 this.$state.location = res.data.user.location,
-                this.$state.description = res.data.user.description
+                this.$state.description = res.data.user.description,
+                this.$state.image = res.data.user.image
         },
 
         async fetchUser() {
-           // console.log('fetchUser', this.$state.id)
-            let res = await axios.get("http://localhost:8082/api/user/show/" + this.$state.id);
+            // console.log('fetchUser', this.$state.id)
+            let res = await axios.get("user/show/" + this.$state.id);
             this.$state.id = res.data.id,
-            this.$state.first_name = res.data.first_name,
-            this.$state.last_name = res.data.last_name,
-            this.$state.location = res.data.location,
-            this.$state.description = res.data.description
+                this.$state.first_name = res.data.first_name,
+                this.$state.last_name = res.data.last_name,
+                this.$state.location = res.data.location,
+                this.$state.description = res.data.description,
+                this.$state.image = res.data.image
+
         },
         clearUser() {
             this.$state.id = null
