@@ -12,7 +12,7 @@ let location = ref(null);
 let showModal = ref(false);
 // let imageData = null;
 let image = ref(null);
-
+//ta 19
 const setImageCroppedData = (data) => {
   image.value = data.imageUrl;
 }
