@@ -1,20 +1,61 @@
 <script setup>
 import TextInput from "@/components/global/TextInput.vue";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import DisplayCropperButton from "@/components/global/DisplayCropperButton.vue";
 import TextArea from "@/components/global/TextArea.vue";
 import SubmitFormButton from "@/components/global/SubmitFormButton.vue";
 import CropperModal from "@/components/global/CropperModal.vue";
 import CroppedImage from "@/components/global/CroppedImage.vue";
-let firstName = ref(null);
-let lastName = ref(null);
-let location = ref(null);
-let showModal = ref(false);
-// let imageData = null;
-let image = ref(null);
+import {useUserStore} from "@/store/UserStore";
+import axios from "axios";
+import {useRouter} from 'vue-router';
 
-const setImageCroppedData = (data)=>{
-  image.value = data.imageUrl;
+const router = useRouter();
+
+
+const userStore = useUserStore();
+
+let errors = ref([]);
+
+let form = ref({
+  first_name: '',
+  last_name: '',
+  location: '',
+  description: '',
+  image: '',
+});
+
+onMounted(() => {
+  form.value.first_name = userStore.first_name
+  form.value.last_name = userStore.last_name
+  form.value.location = userStore.location
+  form.value.description = userStore.description
+  form.value.image = userStore.image
+});
+
+const update = async () => {
+  const formData = new FormData();
+  formData.append('_method', 'PUT')
+  formData.append('first_name', form.value.first_name);
+  formData.append('last_name', form.value.last_name);
+  formData.append('location', form.value.location);
+  formData.append('description', form.value.description);
+  //formData.append('image', formData.value.image);
+
+  try {
+    await axios.post("user/update/" + userStore.id, formData);
+    await userStore.fetchUser();
+    router.push('/account/profile')
+  } catch (error) {
+    console.log(error);
+    errors.value = error.response.data.errors;
+  }
+}
+
+let showModal = ref(false);
+
+const setImageCroppedData = (data) => {
+  form.value.image = data.imageUrl;
 }
 
 </script>
@@ -24,18 +65,18 @@ const setImageCroppedData = (data)=>{
     <div class="text-gray-900 text-xl">Edit Profile</div>
     <div class="bg-green-500 w-full h-1"></div>
     <CropperModal
-      v-if="showModal"
-      :minAspectRatioProp="{width:8, height: 8}"
-      :maxAspectRatioProp="{width:8, height: 8}"
-      @croppedImageData="setImageCroppedData"
-      @showModal="showModal= false"
+        v-if="showModal"
+        :minAspectRatioProp="{width:8, height: 8}"
+        :maxAspectRatioProp="{width:8, height: 8}"
+        @croppedImageData="setImageCroppedData"
+        @showModal="showModal= false"
     />
     <div class="flex flex-wrap mt-4 mb-6">
       <div class="w-full md:w-1/2 px-3">
         <TextInput
             label="First Name"
             placeholder="Its ok!"
-            v-model:input="firstName"
+            v-model:input="form.first_name"
             inputType="text"
             error="this is error"
         />
@@ -45,7 +86,7 @@ const setImageCroppedData = (data)=>{
         <TextInput
             label="Last Name"
             placeholder="Its ok!"
-            v-model:input="lastName"
+            v-model:input="form.last_name"
             inputType="text"
             error="this is error"
         />
@@ -56,7 +97,7 @@ const setImageCroppedData = (data)=>{
         <TextInput
             label="Location"
             placeholder="Its ok!"
-            v-model:input="location"
+            v-model:input="form.location"
             inputType="text"
             error="this is error"
         />
@@ -65,9 +106,9 @@ const setImageCroppedData = (data)=>{
     <div class="flex flex-wrap mt-4 mb-6">
       <div class="w-full md:w-1/2 px-3">
         <DisplayCropperButton
-        label="Profile Image"
-        btnText="update profile image"
-        @showModal="showModal = true"
+            label="Profile Image"
+            btnText="update profile image"
+            @showModal="showModal = true"
         />
       </div>
     </div>
@@ -76,7 +117,7 @@ const setImageCroppedData = (data)=>{
       <div class="w-full md:w-1/2 px-3">
         <CroppedImage
             label="Cropped Image"
-            :image="image"
+            :image="form.image"
         />
       </div>
     </div>
@@ -85,6 +126,7 @@ const setImageCroppedData = (data)=>{
       <div class="w-full px-3">
         <TextArea
             label="Description"
+            v-model:description="form.description"
             placeholder="Write Some Information"
             error="this is error"
         />
@@ -94,6 +136,7 @@ const setImageCroppedData = (data)=>{
       <div class="w-full px-3">
         <SubmitFormButton
             btnText="Update Profile"
+            @click="update"
         />
       </div>
     </div>
