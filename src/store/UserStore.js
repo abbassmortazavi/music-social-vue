@@ -17,35 +17,38 @@ export const useUserStore = defineStore('user', {
 
     actions: {
         async setUserDetails(res) {
-            this.$state.id = res.data.user.id,
-                this.$state.first_name = res.data.user.first_name,
-                this.$state.last_name = res.data.user.last_name,
-                this.$state.token = res.data.token,
-                this.$state.email = res.data.user.email,
-                this.$state.location = res.data.user.location,
-                this.$state.description = res.data.user.description,
-                this.$state.image = res.data.user.image
+            this.$state.id = res.data.user.id;
+            this.$state.first_name = res.data.user.first_name;
+            this.$state.last_name = res.data.user.last_name;
+            this.$state.token = res.data.token;
+            this.$state.email = res.data.user.email;
+            this.$state.location = res.data.user.location;
+            this.$state.description = res.data.user.description;
+            if (res.data.user.image) {
+                this.$state.image = process.env.VUE_APP_URL_BACK + 'images/users/' + res.data.user.image;
+            } else {
+                this.$state.image = process.env.VUE_APP_URL + 'img/avatar.png';
+            }
         },
 
         async fetchUser() {
-            // console.log('fetchUser', this.$state.id)
-            let res = await axios.get("user/show/" + this.$state.id);
-            this.$state.id = res.data.id,
-                this.$state.first_name = res.data.first_name,
-                this.$state.last_name = res.data.last_name,
-                this.$state.location = res.data.location,
-                this.$state.description = res.data.description,
-                this.$state.image = res.data.image
+            let res = await axios.get("api/user/show/" + this.$state.id);
+            this.$state.id = res.data.id;
+            this.$state.first_name = res.data.first_name;
+            this.$state.last_name = res.data.last_name;
+            this.$state.location = res.data.location;
+            this.$state.description = res.data.description;
+            this.$state.image = res.data.image;
 
         },
         clearUser() {
-            this.$state.id = null
-            this.$state.first_name = null,
-                this.$state.last_name = null,
-                this.$state.token = null,
-                this.$state.email = null,
-                this.$state.location = null,
-                this.$state.description = null
+            this.$state.id = null;
+            this.$state.first_name = null;
+            this.$state.last_name = null;
+            this.$state.token = null;
+            this.$state.email = null;
+            this.$state.location = null;
+            this.$state.description = null;
         }
     },
     persist: true

@@ -12,7 +12,7 @@ import {useRouter} from 'vue-router';
 
 const router = useRouter();
 
-
+//ta 29
 const userStore = useUserStore();
 
 let errors = ref([]);
@@ -51,7 +51,7 @@ const update = async () => {
   }
 
   try {
-    await axios.post("user/update/" + userStore.id, formData)
+    await axios.post("api/user/update/" + userStore.id, formData)
         .then(res => {
           console.log(res);
         });
@@ -130,7 +130,7 @@ const setImageCroppedData = (data) => {
       <div class="w-full md:w-1/2 px-3">
         <CroppedImage
             label="Cropped Image"
-            :image="'http://localhost:8082/images/users/'+form.image"
+            :image="form.image"
         />
       </div>
     </div>

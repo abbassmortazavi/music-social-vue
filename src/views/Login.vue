@@ -14,7 +14,7 @@ const login = async () => {
   errors.value = [];
 
   try {
-    let res = await axios.post("http://localhost:8082/api/login", {
+    let res = await axios.post("api/login", {
       email: email.value,
       password: password.value,
     });

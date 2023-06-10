@@ -16,7 +16,7 @@ let errors = ref([]);
 
 const register = async () => {
   try {
-    let res = await axios.post('http://localhost:8082/api/register', {
+    let res = await axios.post('api/register', {
       first_name: firstName.value,
       last_name: lastName.value,
       email: email.value,
