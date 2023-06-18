@@ -12,11 +12,12 @@ export const useUserStore = defineStore('user', {
         location: null,
         image: null,
         description: null,
-        token: null
+        token: null,
     }),
 
     actions: {
         async setUserDetails(res) {
+            console.log(process.env.VUE_APP_URL_API);
             this.$state.id = res.data.user.id;
             this.$state.first_name = res.data.user.first_name;
             this.$state.last_name = res.data.user.last_name;
@@ -25,7 +26,7 @@ export const useUserStore = defineStore('user', {
             this.$state.location = res.data.user.location;
             this.$state.description = res.data.user.description;
             if (res.data.user.image) {
-                this.$state.image = process.env.VUE_APP_URL_BACK + 'images/users/' + res.data.user.image;
+                this.$state.image = process.env.VUE_APP_URL_API + 'images/users/' + res.data.user.image;
             } else {
                 this.$state.image = process.env.VUE_APP_URL + 'img/avatar.png';
             }
@@ -39,6 +40,11 @@ export const useUserStore = defineStore('user', {
             this.$state.location = res.data.location;
             this.$state.description = res.data.description;
             this.$state.image = res.data.image;
+            if (res.data.image) {
+                this.$state.image = process.env.VUE_APP_URL_API + 'images/users/' + res.data.image;
+            } else {
+                this.$state.image = process.env.VUE_APP_URL + 'img/avatar.png';
+            }
 
         },
         clearUser() {

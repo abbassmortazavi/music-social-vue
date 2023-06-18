@@ -21,6 +21,7 @@ const login = async () => {
   
     await userStore.setUserDetails(res);
   } catch (error) {
+    console.log(error);
     errors.value = error.response.data.errors;
   }
 };

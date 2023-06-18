@@ -1,7 +1,47 @@
 <script setup>
-
 import TextInput from "@/components/global/TextInput.vue";
 import SubmitFormButton from "@/components/global/SubmitFormButton.vue";
+import {ref} from "vue";
+import Swal from "@/sweetalert";
+
+import {useUserStore} from "@/store/UserStore";
+import axios from "axios";
+
+const userStore = useUserStore();
+let song = ref(null);
+let title = ref(null);
+let file = ref(null);
+let errors = [];
+const handleFileUpload = () => {
+  song.value = file.value.files[0];
+}
+
+const addSong = async () => {
+  if (!song.value) {
+    await Swal.fire(
+        'Ooops, Something Wrong!',
+        'You Forgot to upload the mp3 file!',
+        'warning'
+    )
+    return null;
+  }
+
+  try {
+    let form = new FormData();
+    form.append('_method', 'POST');
+
+    form.append('user_id', userStore.id);
+    form.append('title', title.value);
+    form.append('file', song.value);
+    console.log(form);
+    await axios.post('api/songs',form)
+
+  } catch (err) {
+    console.log(err);
+    errors.value= err.response.data.errors;
+
+  }
+}
 </script>
 
 <template>
@@ -21,8 +61,8 @@ import SubmitFormButton from "@/components/global/SubmitFormButton.vue";
 
     <div class="w-full">
       <label for="" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Select Image</label>
-      <input type="file" id="image" ref="fileInput"
-             @change="getUploadedImage"
+      <input type="file" id="image" ref="file"
+             @change="handleFileUpload"
              class="
                   form-control
                   block
@@ -46,7 +86,8 @@ import SubmitFormButton from "@/components/global/SubmitFormButton.vue";
               ">
     </div>
     <SubmitFormButton
-    btnText="Add Song"
+        btnText="Add Song"
+        @submit="addSong"
     />
   </div>
 </template>

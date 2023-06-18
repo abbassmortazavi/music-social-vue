@@ -41,23 +41,21 @@ const update = async () => {
   formData.append('location', form.value.location);
   formData.append('description', form.value.description);
 
+
   if (imageData) {
     formData.append('image', imageData.file);
     formData.append('height', imageData.height);
     formData.append('width', imageData.width);
     formData.append('left', imageData.left);
     formData.append('top', imageData.top);
-    console.log('ok');
   }
-
+  console.log(formData);
   try {
-    await axios.post("api/user/update/" + userStore.id, formData)
-        .then(res => {
-          console.log(res);
-        });
+    await axios.post("api/user/update/" + userStore.id, formData);
     await userStore.fetchUser();
-    await router.push('/account/profile')
+   await router.push('/account/profile')
   } catch (error) {
+    console.log(error);
     errors.value = error.response.data.errors;
   }
 }
