@@ -17,7 +17,6 @@ export const useUserStore = defineStore('user', {
 
     actions: {
         async setUserDetails(res) {
-            console.log(process.env.VUE_APP_URL_API);
             this.$state.id = res.data.user.id;
             this.$state.first_name = res.data.user.first_name;
             this.$state.last_name = res.data.user.last_name;

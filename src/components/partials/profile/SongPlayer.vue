@@ -1,13 +1,16 @@
 <script setup>
-
 import Aplayer from 'aplayer';
 import 'aplayer/dist/APlayer.min.css';
 import {onMounted} from "vue";
+import {useSongStore} from "@/store/SongStore";
+
+const songStore = useSongStore();
+
 
 onMounted(() => {
   thePlayer();
 })
-//until section 9
+
 const thePlayer = () => {
   new Aplayer({
     container: document.getElementById('aplayer'),
@@ -33,6 +36,7 @@ const thePlayer = () => {
 <template>
   <div class="bg-green-500 rounded">
     <div id="aplayer"></div>
+    {{ songStore }}
   </div>
 </template>
 
