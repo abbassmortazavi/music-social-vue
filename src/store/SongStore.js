@@ -11,11 +11,11 @@ export const useSongStore = defineStore('song', {
     }),
     //8:13 => 32
     actions: {
-        async fetchSongsByUserId(userId, firstName) {
+        async fetchSongsByUserId(userId) {
             let res = await axios.get('api/user/' + userId + '/songs');
-            this.$state.songs = res.data;
-            this.$state.artistId = userId;
-            this.$state.artistName = firstName;
+            this.$state.songs = res.data.songs;
+            this.$state.artistId = res.data.id;
+            this.$state.artistName = res.data.first_name;
         },
         clearSongs() {
             this.$state.songs = null;
