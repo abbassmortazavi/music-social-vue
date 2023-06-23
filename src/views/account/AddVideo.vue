@@ -1,7 +1,33 @@
 <script setup>
-
 import TextInput from "@/components/global/TextInput.vue";
 import SubmitFormButton from "@/components/global/SubmitFormButton.vue";
+import {ref} from "vue";
+import axios from "axios";
+import {useUserStore} from "@/store/UserStore";
+const userStore = useUserStore();
+import {useVideoStore} from "@/store/VideoStore";
+import router from "@/router";
+const videoStore = useVideoStore();
+
+const form = ref({
+  'title': '',
+  'url': '',
+  'user_id': '',
+});
+let errors = ref([]);
+const addVideo = async ()=>{
+  form.value.user_id = userStore.id;
+  await axios.post('api/youtups', form.value)
+      .then(async res => {
+        console.log(res);
+        await videoStore.fetchVideosByUserId(userStore.id);
+        await router.push('/account/profile')
+      }).catch(err=>{
+        errors.value= err.response.data.errors;
+      });
+}
+
+
 </script>
 
 <template>
@@ -14,22 +40,23 @@ import SubmitFormButton from "@/components/global/SubmitFormButton.vue";
         class="mb-6"
         label="ُTitle"
         placeholder="Title"
-        v-model:input="title"
+        v-model:input="form.title"
         inputType="text"
-        error="this is error"
+        :error="errors.title ? errors.title[0] : ''"
     />
 
     <TextInput
         class="mb-2"
         label="Video Url"
         placeholder="Video Code"
-        v-model:input="videoCode"
+        v-model:input="form.url"
         inputType="text"
-        error="this is error"
+        :error="errors.url ? errors.url[0] : ''"
     />
 
     <SubmitFormButton
     btnText="Add Video"
+    @click="addVideo"
     />
   </div>
 </template>

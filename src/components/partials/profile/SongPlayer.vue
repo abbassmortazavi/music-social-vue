@@ -3,15 +3,19 @@ import Aplayer from 'aplayer';
 import 'aplayer/dist/APlayer.min.css';
 import {onMounted} from "vue";
 import {useSongStore} from "@/store/SongStore";
+import {useUserStore} from "@/store/UserStore";
+const userStore = useUserStore();
+
 
 const songStore = useSongStore();
 
 let songLists = [];
-onMounted(() => {
+onMounted(async () => {
+  await songStore.fetchSongsByUserId(userStore.id)
   mapSongs();
   thePlayer();
 });
-//start 33
+
 const mapSongs = () => {
 
   let x = songStore.songs.map((song) => {

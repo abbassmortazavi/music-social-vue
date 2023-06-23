@@ -8,8 +8,6 @@ const songStore = useSongStore();
 const userStore = useUserStore();
 
 const deleteSong = async (song) => {
-
-
   await Swal.fire({
     title: 'Are you sure?',
     text: "You won't be able to revert this!",
@@ -29,7 +27,6 @@ const deleteSong = async (song) => {
           .then(async res => {
             console.log(res);
             await songStore.fetchSongsByUserId(userStore.id)
-
           }).catch(err => {
             console.log(err);
           });

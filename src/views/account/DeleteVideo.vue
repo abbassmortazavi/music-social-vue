@@ -1,5 +1,43 @@
 <script setup>
+import {useVideoStore} from "@/store/VideoStore";
+import {useUserStore} from "@/store/UserStore";
+import axios from "axios";
+import Swal from "@/sweetalert";
+import router from "@/router";
 
+const videoStore = useVideoStore();
+const userStore = useUserStore();
+
+const deleteVideo = async (video) => {
+  await Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      await Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+      )
+      await axios.delete(`api/delete/youtup/${video.id}`)
+          .then(async res => {
+            console.log(res);
+            await videoStore.fetchVideosByUserId(userStore.id);
+            await router.push('/account/profile');
+          }).catch(err => {
+            console.log(err);
+          });
+    }
+  });
+
+
+
+}
 </script>
 
 <template>
@@ -8,13 +46,13 @@
     <div class="bg-red-500 w-full h-1 mb-4"></div>
 
     <div class="bg-white rounded px-8 pt-6 pb-8">
-      <div class="flex flex-wrap">
+      <div class="flex flex-wrap" v-for="(video, index) in videoStore.videos" :key="video.id">
         <div class="w-1/4 mr-auto mt-2 text-lg p-1 text-gray-900">
-          1.This is Video.
-          <iframe class="w-full h-60" src="https://www.youtube.com/embed/slmQngr-jd0?autoplay=0"></iframe>
+          {{ ++index }}.{{  video.title }}.
+          <iframe class="w-full h-60" :src="video.url"></iframe>
         </div>
         <div class="w-1/4 ml-auto p-1">
-          <button class="float-right bg-transparent hover:bg-red-500 text-gray-900 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">Delete</button>
+          <button @click="deleteVideo(video)" class="float-right bg-transparent hover:bg-red-500 text-gray-900 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">Delete</button>
         </div>
       </div>
     </div>
