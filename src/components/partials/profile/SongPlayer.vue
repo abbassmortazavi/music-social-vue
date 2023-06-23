@@ -13,7 +13,19 @@ onMounted(() => {
 });
 //start 33
 const mapSongs = () => {
-  let newSongs = songStore.songs.map(function (song) {
+
+  let x = songStore.songs.map((song) => {
+    return {
+      name: song.title,
+      artist: songStore.artistName,
+      url: process.env.VUE_APP_URL_API + 'songs/' + songStore.artistId + '/' + song.song
+    }
+  });
+  for (let i = 0; i < x.length; i++) {
+    songLists.push(x[i]);
+  }
+  /*let newSongs = songStore.songs.map(function (song) {
+    console.log(newSongs);
     return {
       name: song.title,
       artist: songStore.artistName,
@@ -22,7 +34,7 @@ const mapSongs = () => {
   });
   for (let i = 0; i < newSongs.length; i++) {
     songLists.push(newSongs[i]);
-  }
+  }*/
 
 }
 

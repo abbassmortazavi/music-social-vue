@@ -9,7 +9,7 @@ export const useSongStore = defineStore('song', {
         artistId: null,
         artistName: null,
     }),
-    //8:13 => 32
+
     actions: {
         async fetchSongsByUserId(userId) {
             let res = await axios.get('api/user/' + userId + '/songs');

@@ -6,6 +6,7 @@ import Swal from "@/sweetalert";
 import {useUserStore} from "@/store/UserStore";
 import axios from "axios";
 import {useSongStore} from "@/store/SongStore";
+import router from "@/router";
 
 const userStore = useUserStore();
 const songStore = useSongStore();
@@ -36,6 +37,7 @@ const addSong = async () => {
     form.append('file', song.value);
     await axios.post('api/songs',form)
     await songStore.fetchSongsByUserId(userStore.id)
+    await router.push('/account/profile')
   } catch (err) {
     console.log(err);
     errors.value= err.response.data.errors;
