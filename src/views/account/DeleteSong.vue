@@ -32,9 +32,6 @@ const deleteSong = async (song) => {
           });
     }
   });
-
-
-
 }
 </script>
 

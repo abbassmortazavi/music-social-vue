@@ -12,7 +12,7 @@ import {useRouter} from 'vue-router';
 
 const router = useRouter();
 
-//ta 29
+
 const userStore = useUserStore();
 
 let errors = ref([]);
@@ -49,13 +49,12 @@ const update = async () => {
     formData.append('left', imageData.left);
     formData.append('top', imageData.top);
   }
-  console.log(formData);
+
   try {
     await axios.post("api/user/update/" + userStore.id, formData);
     await userStore.fetchUser();
    await router.push('/account/profile')
   } catch (error) {
-    console.log(error);
     errors.value = error.response.data.errors;
   }
 }
