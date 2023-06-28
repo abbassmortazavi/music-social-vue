@@ -11,6 +11,8 @@ import DeleteVideo from "@/views/account/DeleteVideo.vue";
 import AddVideo from "@/views/account/AddVideo.vue";
 import AddPost from "@/views/account/AddPost.vue";
 import EditPost from "@/views/account/EditPost.vue";
+import PostById from "@/views/account/PostById.vue";
+import PostsSection from "@/views/account/PostsSection.vue";
 
 const routes = [
   {
@@ -69,6 +71,16 @@ const routes = [
         path: 'edit-post/:id',
         name: 'EditPost',
         component: EditPost,
+      },
+      {
+        path: 'post-by-id/:id',
+        name: 'PostById',
+        component: PostById,
+      },
+      {
+        path: 'posts',
+        name: 'PostsSection',
+        component: PostsSection,
       }
     ]
   },

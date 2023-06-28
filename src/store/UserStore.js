@@ -46,6 +46,9 @@ export const useUserStore = defineStore('user', {
             }
 
         },
+        userImage(image) {
+            return process.env.VUE_APP_URL_API + 'images/users/' + image;
+        },
         clearUser() {
             this.$state.id = null;
             this.$state.first_name = null;

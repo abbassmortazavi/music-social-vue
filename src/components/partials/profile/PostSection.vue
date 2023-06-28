@@ -75,7 +75,7 @@ const deletePost = async (id) => {
           </a>
           <div class="p-2 md:p-4">
             <div class="text-lg">
-              <router-link to=""
+              <router-link :to="'post-by-id/'+post.id"
                            class="
               bg-blue-500
               hover:text-blue-700
