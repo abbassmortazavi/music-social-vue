@@ -66,7 +66,7 @@ const routes = [
         component: AddPost,
       },
       {
-        path: 'edit-post',
+        path: 'edit-post/:id',
         name: 'EditPost',
         component: EditPost,
       }

@@ -6,7 +6,6 @@ import {onMounted, ref} from "vue";
 import axios from "axios";
 import Swal from "@/sweetalert";
 
-
 const postStore = usePostStore();
 const userStore = useUserStore();
 let posts = ref([]);
@@ -94,7 +93,7 @@ const deletePost = async (id) => {
             <p class="py-2">Location: {{ post.location }}</p>
             <p class="text-gray-darker text-md">{{ post.description }}</p>
             <div class="mt-2 flex items-center justify-end">
-              <router-link to="/account/edit-post"
+              <router-link :to="'/account/edit-post/'+post.id"
                            class="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-1 px-1 rounded-full">
                 Edit Post
               </router-link>

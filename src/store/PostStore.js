@@ -10,7 +10,7 @@ export const usePostStore = defineStore('post', {
 
     actions: {
         async fetchPostsByUserId(userId) {
-            let res = await axios.get('api/post/' + userId);
+            let res = await axios.get('api/post/post-user/' + userId);
             this.$state.posts = res.data.data.posts;
         },
         postImage(image) {
