@@ -3,15 +3,18 @@ import Aplayer from 'aplayer';
 import 'aplayer/dist/APlayer.min.css';
 import {onMounted} from "vue";
 import {useSongStore} from "@/store/SongStore";
-import {useUserStore} from "@/store/UserStore";
-const userStore = useUserStore();
-
+// import {useUserStore} from "@/store/UserStore";
+// const userStore = useUserStore();
+// import {useProfileStore} from "@/store/ProfileStore";
+// const profileStore = useProfileStore();
+import {useRoute} from "vue-router";
+const route = useRoute()
 
 const songStore = useSongStore();
 
 let songLists = [];
 onMounted(async () => {
-  await songStore.fetchSongsByUserId(userStore.id)
+  await songStore.fetchSongsByUserId(route.params.id)
   mapSongs();
   thePlayer();
 });

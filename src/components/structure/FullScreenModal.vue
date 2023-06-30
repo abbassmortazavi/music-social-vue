@@ -1,8 +1,39 @@
 <script setup>
 import {ref} from "vue";
 import Button from "@/components/global/Button.vue";
+import {useUserStore} from "@/store/UserStore";
+import {useSongStore} from "@/store/SongStore";
+import {useProfileStore} from "@/store/ProfileStore";
+import {useVideoStore} from "@/store/VideoStore";
+import {usePostStore} from "@/store/PostStore";
+import router from "@/router";
+import axios from "axios";
 
+const userStore = useUserStore();
+const profileStore = useProfileStore();
+const songStore = useSongStore();
+const postStore = usePostStore();
+const videoStore = useVideoStore();
 let open = ref(false);
+
+const logout = () => {
+  axios.post('api/logout', {
+    user_id: userStore.id
+  })
+      .then(async res => {
+        console.log(res);
+        await userStore.clearUser();
+        await profileStore.clearProfile();
+        await songStore.clearSongs();
+        await videoStore.clearVideos();
+        await postStore.clearPosts();
+        await router.push('/');
+      }).catch(err => {
+    console.log(err);
+  });
+}
+
+
 </script>
 
 <template>
@@ -53,7 +84,20 @@ let open = ref(false);
                "
               color="green"
               btnText="Profile"
-              url="/account/profile"
+              :url="'/account/profile/'+userStore.id"
+          />
+
+          <Button
+              v-if="userStore.id"
+              class="
+                  w-full
+                  text-gray-100
+                  text-center
+                  text-lg
+               "
+              color="green"
+              btnText="Logout"
+              @click="logout"
           />
 
           <Button
@@ -71,7 +115,7 @@ let open = ref(false);
         </div>
 
       </div>
-  </div>
+    </div>
   </div>
 </template>
 

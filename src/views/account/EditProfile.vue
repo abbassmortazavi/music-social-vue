@@ -53,7 +53,7 @@ const update = async () => {
   try {
     await axios.post("api/user/update/" + userStore.id, formData);
     await userStore.fetchUser();
-   await router.push('/account/profile')
+   await router.push('/account/profile/' + userStore.id)
   } catch (error) {
     errors.value = error.response.data.errors;
   }

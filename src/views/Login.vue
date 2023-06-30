@@ -1,10 +1,20 @@
 <script setup>
 import TextInput from "@/components/global/TextInput.vue";
-import { ref } from "vue";
+import {ref} from "vue";
 import axios from "axios";
-import { useUserStore } from "@/store/UserStore";
+import {useUserStore} from "@/store/UserStore";
+import {useSongStore} from "@/store/SongStore";
+import {useProfileStore} from "@/store/ProfileStore";
+import {useVideoStore} from "@/store/VideoStore";
+import {usePostStore} from "@/store/PostStore";
+import router from "@/router";
+import TopNavigation from "@/components/structure/TopNavigation.vue";
 
 const userStore = useUserStore();
+const profileStore = useProfileStore();
+const songStore = useSongStore();
+const postStore = usePostStore();
+const videoStore = useVideoStore();
 
 let email = ref(null);
 let password = ref(null);
@@ -18,8 +28,15 @@ const login = async () => {
       email: email.value,
       password: password.value,
     });
-  
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
+
     await userStore.setUserDetails(res);
+    await profileStore.fetchProfile(userStore.id);
+    await songStore.fetchSongsByUserId(userStore.id);
+    await videoStore.fetchVideosByUserId(userStore.id);
+    await postStore.fetchPostsByUserId(userStore.id);
+
+    await router.push('/account/profile/' + userStore.id);
   } catch (error) {
     console.log(error);
     errors.value = error.response.data.errors;
@@ -29,6 +46,8 @@ const login = async () => {
 
 <template>
   <div id="login">
+    <TopNavigation/>
+
     <div class="w-full p-6 flex justify-center items-center">
       <div class="w-full max-w-xs">
         <div class="bg-blue-800 p-8 shadow rounded mb-6">
@@ -38,26 +57,26 @@ const login = async () => {
 
           <div class="mb-4">
             <TextInput
-              label="Email"
-              :labelColor="false"
-              placeholder="Email"
-              v-model:input="email"
-              inputType="email"
-              :error="errors.email ? errors.email[0] : ''"
+                label="Email"
+                :labelColor="false"
+                placeholder="Email"
+                v-model:input="email"
+                inputType="email"
+                :error="errors.email ? errors.email[0] : ''"
             />
             <TextInput
-              label="Password"
-              :labelColor="false"
-              placeholder="Password"
-              v-model:input="password"
-              inputType="password"
-              :error="errors.password ? errors.password[0] : ''"
+                label="Password"
+                :labelColor="false"
+                placeholder="Password"
+                v-model:input="password"
+                inputType="password"
+                :error="errors.password ? errors.password[0] : ''"
             />
           </div>
 
           <button
-            class="block w-full bg-green-500 text-white text-sm tracking-wide rounded-sm py-3 cursor-pointer"
-            @click="login"
+              class="block w-full bg-green-500 text-white text-sm tracking-wide rounded-sm py-3 cursor-pointer"
+              @click="login"
           >
             Login
           </button>
@@ -65,9 +84,10 @@ const login = async () => {
         <p class="text-center text-md text-gray-900">
           Don't Have an Account?
           <router-link
-            to="register"
-            class="text-blue-500 no-underline hover:underline"
-            >Register</router-link
+              to="register"
+              class="text-blue-500 no-underline hover:underline"
+          >Register
+          </router-link
           >
         </p>
       </div>

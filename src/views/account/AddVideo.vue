@@ -21,7 +21,7 @@ const addVideo = async ()=>{
       .then(async res => {
         console.log(res);
         await videoStore.fetchVideosByUserId(userStore.id);
-        await router.push('/account/profile')
+        await router.push('/account/profile/' + userStore.id)
       }).catch(err=>{
         errors.value= err.response.data.errors;
       });

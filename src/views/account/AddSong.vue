@@ -37,7 +37,7 @@ const addSong = async () => {
     form.append('file', song.value);
     await axios.post('api/songs',form)
     await songStore.fetchSongsByUserId(userStore.id)
-    await router.push('/account/profile')
+    await router.push('/account/profile/' + userStore.id)
   } catch (err) {
     console.log(err);
     errors.value= err.response.data.errors;

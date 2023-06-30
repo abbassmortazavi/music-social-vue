@@ -17,7 +17,7 @@ export const usePostStore = defineStore('post', {
             return process.env.VUE_APP_URL_API + 'posts/' + image;
         },
 
-        clearSongs() {
+        clearPosts() {
             this.$state.posts = null;
         }
     },

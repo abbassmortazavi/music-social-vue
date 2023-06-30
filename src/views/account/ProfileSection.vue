@@ -6,8 +6,18 @@ import SongSection from "@/components/partials/profile/SongSection.vue";
 import YoutubeVideoSection from "@/components/partials/profile/YoutubeVideoSection.vue";
 import PostSection from "@/components/partials/profile/PostSection.vue";
 import {useUserStore} from "@/store/UserStore";
+import {useProfileStore} from "@/store/ProfileStore";
+import {onMounted} from "vue";
+import {useRoute} from "vue-router";
 
 const userStore = useUserStore();
+const profileStore = useProfileStore();
+const route = useRoute();
+
+onMounted(()=>{
+  console.log(profileStore.id , Number(route.params.id))
+  profileStore.fetchProfile(route.params.id)
+});
 
 
 </script>
@@ -15,22 +25,22 @@ const userStore = useUserStore();
 <template>
   <div class="container max-w-4xl mx-auto flex mt-10">
     <div class="w-1/3">
-      <img :src="userStore.image" class="w-full rounded-lg h-auto shadow-lg" alt="Profile Pic">
+      <img :src="profileStore.image" class="w-full rounded-lg h-auto shadow-lg" alt="Profile Pic">
     </div>
 
     <div class="w-full pl-4">
       <div class="flex">
         <div class="w-1/2">
-          <h1 class="text-2xl md:text-4xl text-left text-gray-900">{{ userStore.first_name }} {{ userStore.last_name }} </h1>
+          <h1 class="text-2xl md:text-4xl text-left text-gray-900">{{ profileStore.first_name }} {{ profileStore.last_name }} </h1>
           <span class="text-md text-gray-700 ">
-                    <i><b>{{ userStore.location }}</b></i>
+                    <i><b>{{ profileStore.location }}</b></i>
                 </span>
         </div>
-        <div class="w-1/2 mt-2">
+        <div class="w-1/2 mt-2" v-if="userStore.id === Number(route.params.id)">
           <Button
               color="green"
               btnText="Edit Profile"
-              url="/account/edit-profile"
+              :url="'/account/edit-profile/'+ userStore.id"
           />
         </div>
       </div>

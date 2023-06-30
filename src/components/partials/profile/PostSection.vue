@@ -2,16 +2,21 @@
 import Button from "@/components/global/Button.vue";
 import {usePostStore} from "@/store/PostStore";
 import {useUserStore} from "@/store/UserStore";
+import {useProfileStore} from "@/store/ProfileStore";
 import {onMounted, ref} from "vue";
 import axios from "axios";
 import Swal from "@/sweetalert";
+import {useRoute} from "vue-router";
+const route = useRoute()
 
 const postStore = usePostStore();
 const userStore = useUserStore();
+const profileStore = useProfileStore();
+
 let posts = ref([]);
 
 onMounted(async () => {
-  await postStore.fetchPostsByUserId(userStore.id)
+  await postStore.fetchPostsByUserId(route.params.id)
   await listPosts();
 });
 
@@ -93,7 +98,7 @@ const deletePost = async (id) => {
             <p class="py-2">Location: {{ post.location }}</p>
             <p class="text-gray-darker text-md">{{ post.description }}</p>
             <div class="mt-2 flex items-center justify-end">
-              <router-link :to="'/account/edit-post/'+post.id"
+              <router-link v-if="profileStore.id === Number(route.params.id)" :to="'/account/edit-post/'+post.id"
                            class="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-1 px-1 rounded-full">
                 Edit Post
               </router-link>
@@ -109,6 +114,7 @@ const deletePost = async (id) => {
                   px-1
                     rounded-full
                "
+                  v-if="profileStore.id === Number(route.params.id)"
                   btnText="Delete Post"
                   @click="deletePost(post.id)"
               />

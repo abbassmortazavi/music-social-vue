@@ -1,7 +1,21 @@
 <script setup>
-
 import Button from "@/components/global/Button.vue";
 import SongPlayer from "@/components/partials/profile/SongPlayer.vue";
+import {useRoute} from "vue-router";
+import {useUserStore} from "@/store/UserStore";
+import {useSongStore} from "@/store/SongStore";
+import {onMounted} from "vue";
+
+const userStore = useUserStore();
+const songStore = useSongStore();
+const route = useRoute();
+
+
+
+onMounted(()=>{
+  songStore.fetchSongsByUserId(route.params.id)
+})
+
 </script>
 
 <template>
@@ -12,7 +26,7 @@ import SongPlayer from "@/components/partials/profile/SongPlayer.vue";
       <div class="bg-green-500 w-full h-1"></div>
 
 
-      <div class="w-full mt-4 flex justify-end">
+      <div class="w-full mt-4 flex justify-end" v-if="userStore.id === Number(route.params.id)">
         <Button
             class="mr-2"
             color="red"

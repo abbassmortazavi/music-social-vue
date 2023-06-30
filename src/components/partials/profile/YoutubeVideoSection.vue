@@ -5,10 +5,13 @@ import {useVideoStore} from "@/store/VideoStore";
 const videoStore = useVideoStore();
 import {useUserStore} from "@/store/UserStore";
 const userStore = useUserStore();
+import {useRoute} from "vue-router";
+
+const route = useRoute()
 let videos = ref([]);
 
 onMounted(async () => {
-  await videoStore.fetchVideosByUserId(userStore.id)
+  await videoStore.fetchVideosByUserId(route.params.id)
   await listVideos();
 });
 
@@ -25,7 +28,7 @@ const listVideos = async ()=>{
       <div class="bg-green-500 w-full h-1"></div>
 
 
-      <div class="w-full mt-4 flex justify-end">
+      <div class="w-full mt-4 flex justify-end" v-if="userStore.id == route.params.id">
         <Button
             class="mr-2"
             color="red"

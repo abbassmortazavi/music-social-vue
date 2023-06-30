@@ -42,7 +42,7 @@ const addPost = () => {
   axios.post('api/posts', formData)
       .then(async res => {
         console.log(res);
-        await router.push('/account/profile')
+        await router.push('/account/profile/'+ userStore.id)
 
       }).catch(err => {
     errors.value = err.response.data.errors;

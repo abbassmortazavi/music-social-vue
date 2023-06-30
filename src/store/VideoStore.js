@@ -13,7 +13,7 @@ export const useVideoStore = defineStore('video', {
             let res = await axios.get('api/youtup/' + userId );
             this.$state.videos = res.data;
         },
-        clearSongs() {
+        clearVideos() {
             this.$state.videos = null;
         }
     },

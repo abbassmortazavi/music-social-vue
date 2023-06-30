@@ -4,8 +4,18 @@ import TextInput from "@/components/global/TextInput.vue";
 import {ref} from "vue";
 import axios from "axios";
 import {useUserStore} from "@/store/UserStore";
+import {useSongStore} from "@/store/SongStore";
+import {useProfileStore} from "@/store/ProfileStore";
+import {useVideoStore} from "@/store/VideoStore";
+import {usePostStore} from "@/store/PostStore";
+import router from "@/router";
+import TopNavigation from "@/components/structure/TopNavigation.vue";
 
 const userStore = useUserStore();
+const profileStore = useProfileStore();
+const songStore = useSongStore();
+const postStore = usePostStore();
+const videoStore = useVideoStore();
 
 let firstName = ref(null);
 let lastName = ref(null);
@@ -23,8 +33,15 @@ const register = async () => {
       password: password.value,
       password_confirmation: confirmPassword.value,
     });
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
 
     await userStore.setUserDetails(res);
+    await profileStore.fetchProfile(userStore.id);
+    await songStore.fetchSongsByUserId(userStore.id);
+    await videoStore.fetchVideosByUserId(userStore.id);
+    await postStore.fetchPostsByUserId(userStore.id);
+
+    await router.push('/account/profile/' + userStore.id);
   } catch (e) {
     errors.value = e.response.data.errors;
   }
@@ -34,6 +51,8 @@ const register = async () => {
 
 <template>
   <div id="register">
+    <TopNavigation/>
+
     <div class="w-full p-6 flex justify-center items-center">
       <div class="w-full max-w-xs">
         <div class="bg-blue-800 p-8 shadow rounded mb-6">
